@@ -1,7 +1,8 @@
 """
 Document ingestion and chunking pipeline.
 
-load_documents() — reads all .txt files from documents/ and returns a list of
+load_documents() — reads all .txt files from documents/, strips the Reddit
+    post header block (Title/Subreddit/URL/Score lines), and returns a list of
     {"text": str, "source": str} dicts where source is the filename.
 
 chunk_text() — splits a single text string into overlapping character-level chunks.
@@ -12,11 +13,18 @@ chunk_documents() — applies chunk_text to every loaded document and attaches
 """
 
 import os
+import re
 from typing import TypedDict
 
 DOCS_DIR = os.path.join(os.path.dirname(__file__), "documents")
 CHUNK_SIZE = 500
 OVERLAP = 100
+
+# Matches the 4-line Reddit-style header block at the top of each document
+_HEADER_RE = re.compile(
+    r"^Title:.*\nSubreddit:.*\nURL:.*\nScore:.*\n",
+    re.MULTILINE,
+)
 
 
 class Document(TypedDict):
@@ -30,6 +38,14 @@ class Chunk(TypedDict):
     chunk_index: int
 
 
+def _clean(text: str) -> str:
+    # Remove Reddit header boilerplate
+    text = _HEADER_RE.sub("", text)
+    # Collapse 3+ blank lines to 2
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
 def load_documents(docs_dir: str = DOCS_DIR) -> list[Document]:
     docs: list[Document] = []
     for filename in sorted(os.listdir(docs_dir)):
@@ -37,7 +53,8 @@ def load_documents(docs_dir: str = DOCS_DIR) -> list[Document]:
             continue
         filepath = os.path.join(docs_dir, filename)
         with open(filepath, "r", encoding="utf-8") as f:
-            text = f.read().strip()
+            raw = f.read()
+        text = _clean(raw)
         if text:
             docs.append({"text": text, "source": filename})
     return docs
