@@ -1,0 +1,28 @@
+Title: NEU CS curriculum breakdown — what to expect from Fundies to Algorithms
+Subreddit: r/NEU
+URL: https://www.reddit.com/r/NEU/comments/neu_cs_curriculum_guide
+Score: 2788
+
+CS junior who's also a TA for Fundies. Here's the real guide to the NEU CS curriculum.
+
+**CS 2500 — Fundamentals of Computer Science 1 (Fundies 1)**
+This is the intro course and it uses Racket (a functional language), which surprises most students who expected Python or Java. This is intentional — by learning a language with no side effects, you develop a rigorous mental model of computation. It feels alien for the first 2–3 weeks, then clicks. Don't skip the reading; HtDP (the textbook, free online) is dense but essential.
+
+The design recipe — a structured problem-solving template — is drilled into every assignment. Follow it exactly, even if it feels excessive. Instructors grade on process, not just output.
+
+**CS 2510 — Fundies 2 (Java OOP)**
+This course transitions to Java and introduces object-oriented design, mutability, and more complex data structures. The jump from Racket to Java is jarring; go to office hours in weeks 1–2. The Accelerated version (CS 2511) is available if you have prior OOP experience.
+
+**CS 3500 — Object-Oriented Design**
+One of the most practically valuable courses in the curriculum. You learn design patterns, code review practices, and how to build systems with others. The team project component is where a lot of students struggle — learning to collaborate on code is a skill. Use Git properly from day one; version control conflicts during a group project at 11 pm before a deadline are genuinely painful.
+
+**CS 3650 — Computer Systems**
+C programming, memory management, processes, and systems concepts. Known for difficulty. The malloc lab (implementing your own memory allocator) is famously hard — start it the week it's assigned, not three days before. The TAs hold long office hours during lab week; use them.
+
+**CS 4800 — Algorithms and Data**
+Pure theory. Sorting, graphs, dynamic programming, NP-completeness. The exam problems are proof-heavy. Study the problem set solutions carefully — exam questions often follow the same structure. Form a study group for this one.
+
+**Advice**
+- The CS advising office in 202 WVH is responsive and actually helpful. Use it for course sequencing questions.
+- Research labs at NEU hire undergrads. The Align program and various PIs in the Khoury College actively recruit juniors. Email professors whose research interests you — a short, specific email works better than a generic one.
+- Take CS 4500 (Software Development) as early as you can. It's one of the most intensive courses in the major but also prepares you more for real-world software work than anything else.

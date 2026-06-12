@@ -1,0 +1,30 @@
+Title: BU professor recommendations megathread — CS, Math, and Engineering
+Subreddit: r/BostonU
+URL: https://www.reddit.com/r/BostonU/comments/bu_professor_recommendations
+Score: 2334
+
+Thread for sharing professor recommendations. Upvote if you agree, add your own in the comments.
+
+**Computer Science**
+
+*Prof. Azer Bestavros* — Distributed systems and networks. Legendary at BU. His lectures are dense but packed with real insight. He's been at BU for decades and has a genuine passion for teaching. Exams are hard but fair. Highly recommend if you're serious about systems.
+
+*Prof. Ioannis Paschalidis* — Systems Engineering. Very clear explanations, structured course, fair grading. Goes out of his way during office hours. One of the best office hour experiences I've had — he actually engages with your confusion rather than just pointing to the textbook.
+
+*Prof. Mark Crovella* — Networking and data analysis. Interesting research background (pioneered web traffic analysis). His courses are challenging but his lectures are engaging. The assignments are real-world motivated.
+
+**Mathematics**
+
+*Prof. Kevin Houston* — Calculus and Linear Algebra. Students consistently rate him as one of the best math teachers at BU. He explains concepts intuitively before going rigorous, which makes a big difference in MA 123/124. His notes are excellent and he posts them online.
+
+*Prof. Ryan Goh* — Differential Equations. Patient, approachable, clear. Office hours are not intimidating. Good choice if you're worried about MA 226.
+
+**Engineering (ENG/EC)**
+
+*Prof. David Castañon* — Control Systems. Very organized, clear rubrics, fair exams. His course has a steep learning curve but he scaffolds it well. Responds to email quickly.
+
+**General Tips for Choosing Professors**
+- Check RateMyProfessors (ratemyprofessors.com) and search "Boston University" — filter by department. Read recent reviews (past 2 years) since professors can change.
+- Post here before registering — someone will have direct experience.
+- If a course has multiple sections, the professor matters more than the meeting time in most cases. Switch sections if you need to.
+- Office hours are genuinely different at BU vs. high school. Professors here often know individual students by name. Show up.

@@ -1,0 +1,28 @@
+Title: Northeastern co-op program — complete guide from someone who did three of them
+Subreddit: r/NEU
+URL: https://www.reddit.com/r/NEU/comments/neu_coop_complete_guide
+Score: 3412
+
+I'm a fifth-year CS student who did three co-ops (Amazon Seattle, a Boston startup, and a government contractor in DC). Here's the comprehensive guide.
+
+**What Is Co-op?**
+Northeastern's cooperative education program lets you alternate between full-time academic semesters and full-time work semesters. For most programs, you do two or three 6-month co-ops. This means you graduate in 4.5–5 years, but you graduate with 12–18 months of real work experience. This is not optional if you're in most engineering or CS programs — it's built into the curriculum.
+
+**When It Starts**
+Most students do their first co-op in the second semester of sophomore year or the first semester of junior year. You register through NUworks (the co-op platform) about 6 months before your intended start date. Your co-op coordinator (assigned by major) is your point of contact — they approve your application and can negotiate on your behalf in some cases.
+
+**How to Prepare**
+- Resume: The Northeastern Career Center does resume critiques in Snell Library. Use them. CS-specific tip: list your GitHub and include 2–3 project descriptions with technologies used.
+- Leetcode: For any technical co-op (CS, data science, engineering), you will be Leetcoded. Start with Easy and Medium problems in arrays, strings, and hashmaps at minimum. A few months before applying, ramp up to Mediums daily.
+- NUworks postings open on a rolling basis. CS positions in particular fill fast — check daily starting in the fall if you want a spring co-op.
+
+**Compensation and Housing**
+Co-ops are paid. CS positions typically pay $25–$55/hour depending on company and location. Amazon, Google, and large tech companies pay at the high end. Startups vary wildly. Government/nonprofit roles pay less but have other benefits (security clearance, etc.).
+
+If your co-op is in another city, you'll need to arrange housing. Your co-op company may offer a housing stipend — ask explicitly during the offer stage. Common solutions: corporate apartments (often arranged by the company), Airbnb monthly rentals, furnished short-term apartments (check Furnished Finder), or subletting from another student going off campus.
+
+**What to Expect at Work**
+Co-ops are generally treated like junior employees, not interns. At most companies you'll be on a real team with real tickets and deliverables. At Amazon I shipped two features to production. At the startup I owned an entire service. Don't expect a lot of hand-holding after the first two weeks.
+
+**Converting to a Full-Time Offer**
+Many students receive return offers from their co-op employers. This is increasingly a primary pipeline for full-time jobs, especially at large tech companies. If you want a return offer, ask your manager about it explicitly around month 4. Don't assume good performance automatically translates to an offer conversation.

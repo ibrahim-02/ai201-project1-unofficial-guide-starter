@@ -1,0 +1,24 @@
+Title: BU CS degree tips — what no advisor tells you (CS 111, 210, 330 breakdown)
+Subreddit: r/BostonU
+URL: https://www.reddit.com/r/BostonU/comments/bu_cs_tips
+Score: 1891
+
+Current junior in BU Computer Science. Here's what I know now that I wish I'd known as a freshman.
+
+**CS 111 — Introduction to CS 1 (Python)**
+If you have any prior programming experience, petition to skip this and go straight to CS 112 or CS 131. CS 111 is designed for true beginners and moves slowly. The professor variation matters a lot here — check RateMyProfessors for the current semester's instructor. Some sections assign daily labs that are easy points; others have harder projects. Either way it's not a weed-out course.
+
+**CS 112 — Introduction to CS 2 (Java)**
+This is where it gets real. Object-oriented programming, data structures basics, recursion. The projects here are substantial — expect to spend 8–15 hours per project. The autograder is used for a lot of assignments; learn to test your own code against edge cases before submitting because the autograder is ruthless. TAs hold office hours in the CS Resource Room (third floor, CAS) — go to them, they're genuinely helpful.
+
+**CS 210 — Computer Systems**
+Probably the hardest course in the sophomore year for most people. It covers C programming, memory management, processes, and systems concepts. Start every assignment immediately — "I'll do it later" will end you in this class. The bomb lab and buffer overflow assignments specifically are known for eating time. Form a study group.
+
+**CS 330 — Introduction to Algorithms**
+Pure theory course. Dynamic programming, graph algorithms, NP-completeness proofs. The exams are hard but fair if you do the practice problems. Attend every lecture because the exam problems often closely mirror lecture examples.
+
+**General Advice**
+- Use RateMyProfessors AND ask upperclassmen on this subreddit before registering. Some courses have professor sections that are dramatically better than others.
+- The CS Resource Room (CAS 3rd floor) is open late and has TAs on duty — way more useful than email.
+- Research electives: take at least one ML or systems elective by junior year. CS 542 (ML) and CS 455 (Networks) are both highly regarded.
+- Start internship recruiting early. BU's career fair in September is real — companies like Google, Microsoft, and Amazon come, and having a solid GitHub profile matters more than GPA at many of them.
