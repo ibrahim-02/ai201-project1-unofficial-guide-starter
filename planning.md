@@ -71,7 +71,7 @@ For this project, the local model is the right choice: free, fast, and sufficien
 | 2 | How does Northeastern's co-op program work? | Students alternate between full-time academic semesters and 6-month paid work placements, typically 2–3 co-ops total, starting sophomore/junior year via NUworks. |
 | 3 | Which MBTA line serves Northeastern University? | The Orange Line (Ruggles stop) and the Green Line E branch (Northeastern stop) both serve NEU. |
 | 4 | What neighborhoods do BU students typically live off-campus? | Allston and Brighton are most common; Fenway/Kenmore for those willing to pay more. |
-| 5 | What is CS 3650 at Northeastern and why is it considered hard? | CS 3650 is Computer Systems (C programming, memory management, processes); the malloc lab assignment is particularly difficult and time-intensive. |
+| 5 | What makes the malloc lab in CS 3650 at Northeastern so difficult? | CS 3650 is Computer Systems (C programming, memory management, processes); the malloc lab (implementing your own memory allocator) is famously hard — start it the week it's assigned. |
 
 ---
 

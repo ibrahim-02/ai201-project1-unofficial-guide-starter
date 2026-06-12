@@ -61,6 +61,41 @@ def get_collection() -> chromadb.Collection:
     return client.get_collection(COLLECTION_NAME)
 
 
+def retrieve(query: str, k: int = 4) -> list[dict]:
+    """
+    Embed a query string and return the top-k most relevant chunks.
+
+    Each result dict contains:
+      - text        : the chunk content
+      - source      : source filename (for citation)
+      - chunk_index : position of the chunk within its document
+      - distance    : cosine distance (lower = more similar)
+    """
+    model = SentenceTransformer(MODEL_NAME)
+    query_embedding = model.encode([query])[0].tolist()
+    collection = get_collection()
+
+    results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=k,
+        include=["documents", "metadatas", "distances"],
+    )
+
+    chunks = []
+    for text, meta, dist in zip(
+        results["documents"][0],
+        results["metadatas"][0],
+        results["distances"][0],
+    ):
+        chunks.append({
+            "text": text,
+            "source": meta["source"],
+            "chunk_index": meta["chunk_index"],
+            "distance": round(dist, 4),
+        })
+    return chunks
+
+
 if __name__ == "__main__":
     collection = build_vector_store()
 
