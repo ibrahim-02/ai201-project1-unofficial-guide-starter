@@ -216,16 +216,77 @@ The system correctly refuses to answer using general knowledge. The retrieval st
 
 ## Evaluation Report
 
-| # | Question | Expected answer | System response (summarized) | Retrieval quality | Response accuracy |
-|---|----------|-----------------|------------------------------|-------------------|-------------------|
-| 1 | What is the best dining hall at Boston University? | Marciano Commons is best for variety | Correctly identified Marciano Commons as best, listed its features (pasta, grill, salad bar, desserts) | Relevant | Accurate |
-| 2 | How does Northeastern's co-op program work? | 6-month work placements, 2–3 co-ops, starts sophomore/junior year via NUworks | Correctly described alternating semesters, 6-month duration, graduation in 4.5–5 years, NUworks registration | Relevant | Accurate |
-| 3 | Which MBTA line serves Northeastern University? | Orange Line (Ruggles) and Green Line E branch | Correctly returned both the Orange Line (Ruggles, Back Bay, Forest Hills) and Green Line E branch (Northeastern stop) | Relevant | Accurate |
-| 4 | What neighborhoods do BU students live off-campus? | Allston and Brighton most common | Correctly returned Allston as the quintessential BU neighborhood, Brighton as slightly cheaper | Relevant | Accurate |
-| 5 | What makes the malloc lab in CS 3650 at Northeastern so difficult? | Implementing a memory allocator from scratch; start it early | Correctly explained malloc lab = implementing own memory allocator; mentioned starting early and using TAs | Relevant | Accurate |
+---
 
-**Retrieval quality:** Relevant / Partially relevant / Off-target
-**Response accuracy:** Accurate / Partially accurate / Inaccurate
+**Q1: What is the best dining hall at Boston University?**
+
+*Expected answer:* Marciano Commons is the best overall for variety; Warren Towers for convenience; Towers (West Campus) for a calmer atmosphere.
+
+*System response:*
+> The best overall dining hall at Boston University is Marciano Commons, located on the West Campus. It offers a wide variety of options, including a pasta station, stir-fry line, grill, soup bar, and rotating international cuisine counter, as well as a well-stocked salad bar and solid dessert options.
+> Sources: [dining_01_bu_dining_halls.txt]
+
+*Retrieval quality:* Relevant — *Response accuracy:* **Accurate**
+
+---
+
+**Q2: How does Northeastern's co-op program work?**
+
+*Expected answer:* Students alternate between full-time academic semesters and 6-month paid work placements, doing 2–3 co-ops total, starting sophomore/junior year, registered through NUworks.
+
+*System response:*
+> Northeastern's cooperative education program lets students alternate between full-time academic semesters and full-time work semesters. For most programs, students do two or three 6-month co-ops, which means they graduate in 4.5–5 years, but with 12–18 months of real work experience. Most students do their first co-op in the second semester of sophomore year or the first semester of junior year, and they register through NUworks about 6 months before their intended start date.
+> Sources: [courses_06_neu_coop_guide.txt, survival_09_neu_freshman_guide.txt]
+
+*Retrieval quality:* Relevant — *Response accuracy:* **Accurate**
+
+---
+
+**Q3: Which MBTA line serves Northeastern University?**
+
+*Expected answer:* The Orange Line (Ruggles stop) and the Green Line E branch (Northeastern stop) both serve NEU.
+
+*System response:*
+> The Orange Line and the Green Line E Branch serve Northeastern University. The Orange Line has stops at Ruggles, Back Bay, and Forest Hills, while the Green Line E Branch has a stop on Huntington Ave, also called "Northeastern".
+> Sources: [transit_10_boston_mbta_guide.txt, survival_09_neu_freshman_guide.txt]
+
+*Retrieval quality:* Relevant — *Response accuracy:* **Accurate**
+
+---
+
+**Q4: What neighborhoods do BU students typically live off-campus?**
+
+*Expected answer:* Allston and Brighton most common; Fenway/Kenmore for those willing to pay more; Jamaica Plain as a cheaper option farther out.
+
+*System response:*
+> BU students live off-campus in the Allston and Brighton neighborhoods. Allston is considered the quintessential BU off-campus neighborhood, with a high density of college students, bars, and restaurants, while Brighton is slightly cheaper.
+> Sources: [survival_12_boston_offcampus_life.txt, housing_03_bu_dorms.txt]
+
+*Retrieval quality:* Relevant — *Response accuracy:* **Partially accurate** — Correctly identifies Allston and Brighton but omits Fenway/Kenmore and Jamaica Plain, both of which are mentioned in the retrieved documents. The retrieval surfaced the right chunks; the LLM chose to stop after the first two neighborhoods rather than synthesizing the full list from the context.
+
+---
+
+**Q5: What makes the malloc lab in CS 3650 at Northeastern so difficult?**
+
+*Expected answer:* Students must implement a complete memory allocator from scratch; it is time-intensive and the standard advice is to start it the week it is assigned.
+
+*System response:*
+> The malloc lab in CS 3650 at Northeastern is famously hard because it requires implementing your own memory allocator, and it is recommended to start it the week it's assigned, not three days before, implying that it is time-consuming and challenging.
+> Sources: [courses_11_neu_cs_curriculum.txt]
+
+*Retrieval quality:* Relevant — *Response accuracy:* **Accurate**
+
+---
+
+**Summary:**
+
+| # | Question | Retrieval | Accuracy |
+|---|---|---|---|
+| 1 | Best BU dining hall | Relevant | Accurate |
+| 2 | NEU co-op program | Relevant | Accurate |
+| 3 | MBTA for Northeastern | Relevant | Accurate |
+| 4 | BU off-campus neighborhoods | Relevant | **Partially accurate** |
+| 5 | CS 3650 malloc lab difficulty | Relevant | Accurate |
 
 ---
 
