@@ -182,6 +182,36 @@ Each context block is labeled with its source filename before the model sees it:
 **How source attribution is surfaced in the response:**
 Source attribution is implemented at two levels. First, the LLM is instructed to end every response with `Sources: [filename1.txt, filename2.txt]`. Second — and more reliably — the source list is extracted programmatically from the retrieval results before the LLM call and returned separately by `query()`. The UI displays both: the LLM's in-text citation and the programmatic source list underneath. Even if the LLM omits or duplicates sources in its response, the programmatic list is always correct and deduplicated.
 
+### Example System Responses
+
+**Example 1 — Query:** *"What is the best dining hall at Boston University?"*
+
+> The best overall dining hall at Boston University is Marciano Commons, located on the West Campus. It offers a wide variety of options, including a pasta station, stir-fry line, grill, soup bar, and rotating international cuisine counter, as well as a well-stocked salad bar and solid dessert selection.
+>
+> Sources: [dining_01_bu_dining_halls.txt]
+
+*Programmatic sources panel:* `dining_01_bu_dining_halls.txt`, `dining_02_neu_dining.txt`, `housing_04_neu_housing.txt`
+
+---
+
+**Example 2 — Query:** *"How does Northeastern's co-op program work?"*
+
+> Northeastern's cooperative education program lets students alternate between full-time academic semesters and full-time work semesters. For most programs, students do two or three 6-month co-ops, which means they graduate in 4.5–5 years, but with 12–18 months of real work experience. Most students do their first co-op in the second semester of sophomore year or the first semester of junior year, and they register through NUworks about 6 months before their intended start date.
+>
+> Sources: [courses_06_neu_coop_guide.txt, survival_09_neu_freshman_guide.txt]
+
+*Programmatic sources panel:* `courses_06_neu_coop_guide.txt`, `survival_09_neu_freshman_guide.txt`
+
+---
+
+**Example 3 — Out-of-scope query:** *"What is the capital of France?"*
+
+> I don't have enough information in my documents to answer that.
+>
+> Sources: [survival_12_boston_offcampus_life.txt, housing_03_bu_dorms.txt, transit_10_boston_mbta_guide.txt]
+
+The system correctly refuses to answer using general knowledge. The retrieval step still runs and returns the closest chunks (which are unrelated to France), but the LLM correctly identifies that none of the context answers the question and uses the fallback phrase from the system prompt. Note that the sources listed reflect what was retrieved, not what was used — the answer itself is a refusal.
+
 ---
 
 ## Evaluation Report
