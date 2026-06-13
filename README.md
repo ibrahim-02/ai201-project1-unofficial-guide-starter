@@ -44,6 +44,61 @@ Fixed character splitting was tested first and produced chunks starting mid-word
 
 **Final chunk count:** 74 chunks across 12 documents (5–8 chunks per document).
 
+### Sample Chunks
+
+**Chunk 1** — `courses_05_bu_cs_tips.txt` (chunk 2, 362 chars)
+```
+**CS 210 — Computer Systems**
+Probably the hardest course in the sophomore year for most people. It covers C
+programming, memory management, processes, and systems concepts. Start every
+assignment immediately — "I'll do it later" will end you in this class. The bomb
+lab and buffer overflow assignments specifically are known for eating time. Form
+a study group.
+```
+
+**Chunk 2** — `courses_06_neu_coop_guide.txt` (chunk 5, 360 chars)
+```
+If your co-op is in another city, you'll need to arrange housing. Your co-op
+company may offer a housing stipend — ask explicitly during the offer stage.
+Common solutions: corporate apartments (often arranged by the company), Airbnb
+monthly rentals, furnished short-term apartments (check Furnished Finder), or
+subletting from another student going off campus.
+```
+
+**Chunk 3** — `courses_11_neu_cs_curriculum.txt` (chunk 3, 308 chars)
+```
+**CS 3650 — Computer Systems**
+C programming, memory management, processes, and systems concepts. Known for
+difficulty. The malloc lab (implementing your own memory allocator) is famously
+hard — start it the week it's assigned, not three days before. The TAs hold long
+office hours during lab week; use them.
+```
+
+**Chunk 4** — `housing_03_bu_dorms.txt` (chunk 3, 399 chars)
+```
+**C-Tier: Warren Towers**
+The classic freshman experience. Enormous building, 1800+ students, it's
+basically a small city. The energy is intense — great if you want to meet
+people, bad if you ever want quiet. The rooms are very small (some of the
+smallest on campus). The dining hall in the building is convenient though.
+Warren puts you in the social deep end, which some people love and some hate.
+```
+
+**Chunk 5** — `survival_09_neu_freshman_guide.txt` (chunk 5, 510 chars)
+```
+**Money Stuff**
+- Northeastern's tuition and housing costs are high. Use the food pantry
+  (located in Curry Student Center) if you're food insecure — it's anonymous
+  and free. Many students use it.
+- The Health and Counseling Center (360 Huntington) offers free mental health
+  sessions. Book early in the semester; wait times increase around midterms.
+- MBTA Student Semester Pass: buy it through the Northeastern Commuter Student
+  Services office. Significantly cheaper than paying per ride for the full
+  semester.
+```
+
+Each chunk starts at a paragraph boundary, contains a complete thought, and can be understood without reading surrounding context.
+
 ---
 
 ## Embedding Model
