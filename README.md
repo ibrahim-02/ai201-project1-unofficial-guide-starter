@@ -101,6 +101,45 @@ Each chunk starts at a paragraph boundary, contains a complete thought, and can 
 
 ---
 
+## Retrieval Test Examples
+
+### Query 1: "What is the best dining hall at Boston University?"
+
+| Rank | Source | Chunk | Distance | Preview |
+|---|---|---|---|---|
+| 1 | `dining_01_bu_dining_halls.txt` | 4 | 0.4184 | **Meal Plan Tips** — dining dollars roll over, swipes work at GSU food court, late-night hours at Marciano... |
+| 2 | `dining_02_neu_dining.txt` | 2 | 0.4184 | **Stetson West** — quick-service dining hall, best sandwich/wrap station on campus... |
+| 3 | `housing_04_neu_housing.txt` | 1 | 0.4194 | *Speare Hall*, *East Village* — NEU dorm descriptions... |
+| 4 | `dining_01_bu_dining_halls.txt` | 0 | 0.4235 | **Marciano Commons** — best overall, pasta station, stir-fry, grill, soup bar... |
+
+**Why these chunks are relevant:** Chunks 1 and 4 come directly from the BU dining halls document and contain the ranking and feature descriptions for Marciano Commons — exactly what the query is asking. The embedding model matched "best dining hall at Boston University" to text that uses evaluative language ("best overall", "variety is excellent") about specific dining locations. Chunk 2 from the NEU dining document was retrieved because it also describes a dining hall using similar comparative language ("best quick option on campus"), which is semantically close to the query even though it covers a different university. Chunk 3 (NEU dorms) is a weak match — the word "dining" appears in the dorm chunk in a different context, which shows a limitation of semantic search at low retrieval distances.
+
+---
+
+### Query 2: "How does Northeastern's co-op program work?"
+
+| Rank | Source | Chunk | Distance | Preview |
+|---|---|---|---|---|
+| 1 | `courses_06_neu_coop_guide.txt` | 1 | 0.2893 | **What Is Co-op?** — alternating semesters, 2–3 six-month placements, 12–18 months experience... |
+| 2 | `survival_09_neu_freshman_guide.txt` | 3 | 0.3619 | **The Co-op Culture** — co-op permeates everything, career connections matter more than GPA... |
+| 3 | `courses_06_neu_coop_guide.txt` | 2 | 0.4244 | **When It Starts** — first co-op sophomore/junior year, register via NUworks 6 months before... |
+| 4 | `survival_09_neu_freshman_guide.txt` | 6 | 0.4571 | **The "NEU Grind" Culture** — career-focused culture, co-op puts you ahead... |
+
+**Why these chunks are relevant:** The top result (distance 0.2893 — the lowest across all test queries) is the "What Is Co-op?" section, which is a direct definitional answer to the query. The distance being nearly 0.1 lower than the next result shows the embedding model strongly separated the most relevant chunk from the rest. Chunks 2 and 4 from the freshman guide are also genuinely relevant — they discuss co-op culture and timeline, which complements the procedural information in the co-op guide. All 4 retrieved chunks add different facets of the same topic (definition, culture, timeline, attitude), giving the LLM a complete picture to generate from.
+
+---
+
+### Query 3: "Which MBTA line serves Northeastern University?"
+
+| Rank | Source | Chunk | Distance | Preview |
+|---|---|---|---|---|
+| 1 | `transit_10_boston_mbta_guide.txt` | 3 | 0.4162 | **Orange Line (Northeastern)** — Ruggles main stop, Back Bay one stop away... |
+| 2 | `survival_09_neu_freshman_guide.txt` | 4 | 0.4458 | **Transit** — Orange Line Ruggles literally on campus, Green Line E branch nearby, #39 bus... |
+| 3 | `survival_09_neu_freshman_guide.txt` | 5 | 0.4780 | **Money Stuff** — MBTA Student Semester Pass available through NEU Commuter Services... |
+| 4 | `transit_10_boston_mbta_guide.txt` | 6 | 0.5297 | **Tips** — MBTA app for real-time arrivals, Green Line unreliable, Fenway game nights... |
+
+---
+
 ## Embedding Model
 
 **Model used:** `all-MiniLM-L6-v2` via `sentence-transformers` (runs locally, no API key, no rate limits)
