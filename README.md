@@ -131,6 +131,182 @@ The spec planned for character-level chunking with 100-character overlap. The im
 
 ---
 
+## Tool Inventory
+
+Each function below is a discrete pipeline stage. Inputs and outputs match the actual signatures in the code.
+
+---
+
+### `load_documents(docs_dir: str) -> list[Document]`
+**File:** `ingest.py`
+**Purpose:** Reads every `.txt` file from the documents directory, strips Reddit header boilerplate, and returns structured document objects.
+**Inputs:**
+- `docs_dir` (str) — path to the folder containing `.txt` files. Defaults to `documents/` relative to the project root.
+
+**Output:** `list[Document]` — each item is `{"text": str, "source": str}` where `source` is the filename (e.g. `dining_01_bu_dining_halls.txt`).
+
+---
+
+### `chunk_text(text: str, chunk_size: int, overlap: int, min_chunk_size: int) -> list[str]`
+**File:** `ingest.py`
+**Purpose:** Splits a single document string into paragraph-aware chunks. Paragraphs are split on blank lines and merged greedily up to `chunk_size`. The last paragraph of each chunk is carried forward as overlap. Chunks shorter than `min_chunk_size` are merged forward rather than saved as stubs.
+**Inputs:**
+- `text` (str) — cleaned document text
+- `chunk_size` (int) — target max characters per chunk. Default: 500
+- `overlap` (int) — used as threshold to decide whether the last paragraph is short enough to carry forward. Default: 100
+- `min_chunk_size` (int) — minimum characters a chunk must reach before being saved. Default: 150
+
+**Output:** `list[str]` — list of chunk strings, each starting and ending at a paragraph boundary.
+
+---
+
+### `chunk_documents(docs: list[Document]) -> list[Chunk]`
+**File:** `ingest.py`
+**Purpose:** Applies `chunk_text` to every document and attaches source metadata to each chunk for downstream attribution.
+**Inputs:**
+- `docs` (list[Document]) — output of `load_documents()`
+
+**Output:** `list[Chunk]` — each item is `{"text": str, "source": str, "chunk_index": int}`.
+
+---
+
+### `build_vector_store() -> chromadb.Collection`
+**File:** `embed.py`
+**Purpose:** One-time setup function. Loads all chunks, embeds them with `all-MiniLM-L6-v2`, and upserts into a persistent ChromaDB collection. Drops and recreates the collection on each run so re-runs are idempotent.
+**Inputs:** None (reads from `documents/` via `load_documents()`)
+**Output:** `chromadb.Collection` — the populated collection, ready for querying.
+
+---
+
+### `get_collection() -> chromadb.Collection`
+**File:** `embed.py`
+**Purpose:** Returns the existing ChromaDB collection without rebuilding it. Used by `retrieve()` at query time.
+**Inputs:** None
+**Output:** `chromadb.Collection`
+
+---
+
+### `retrieve(query: str, k: int) -> list[dict]`
+**File:** `embed.py`
+**Purpose:** Embeds a query string and returns the top-k most semantically similar chunks from ChromaDB.
+**Inputs:**
+- `query` (str) — the user's natural-language question
+- `k` (int) — number of chunks to return. Default: 4
+
+**Output:** `list[dict]` — each item contains:
+- `text` (str) — chunk content
+- `source` (str) — filename the chunk came from
+- `chunk_index` (int) — position of the chunk within its document
+- `distance` (float) — cosine distance from query (lower = more similar)
+
+---
+
+### `build_context(chunks: list[dict]) -> str`
+**File:** `rag.py`
+**Purpose:** Formats retrieved chunks into a labeled context block for the LLM prompt. Each chunk is wrapped with its source filename so the model can reference it for citation.
+**Inputs:**
+- `chunks` (list[dict]) — output of `retrieve()`
+
+**Output:** `str` — formatted string of the form:
+```
+--- CONTEXT 1 (source: filename.txt) ---
+[chunk text]
+
+--- CONTEXT 2 (source: filename.txt) ---
+[chunk text]
+```
+
+---
+
+### `query(user_question: str) -> tuple[str, list[str]]`
+**File:** `rag.py`
+**Purpose:** Full RAG pipeline entry point. Retrieves relevant chunks, builds the grounded prompt, calls Groq, and returns the answer with sources.
+**Inputs:**
+- `user_question` (str) — the user's question
+
+**Output:** `tuple[str, list[str]]`
+- `str` — LLM-generated answer grounded in retrieved context
+- `list[str]` — deduplicated list of source filenames the chunks came from (programmatic, not parsed from LLM output)
+
+---
+
+### `handle_query(question: str) -> tuple[str, str]`
+**File:** `app.py`
+**Purpose:** Gradio event handler. Calls `query()` and formats outputs for the two UI panels. Guards against empty input.
+**Inputs:**
+- `question` (str) — text from the Gradio input box
+
+**Output:** `tuple[str, str]`
+- First str — answer text for the Answer panel
+- Second str — bullet-formatted source list for the Sources panel (e.g. `"* dining_01_bu_dining_halls.txt\n* dining_02_neu_dining.txt"`)
+
+---
+
+## How the Pipeline Works
+
+The system is a linear pipeline, not an agent loop. There is no replanning — each stage passes its output directly to the next.
+
+```
+User question
+     |
+     v
+retrieve(question, k=4)          ← embed.py
+     |  embeds query, searches ChromaDB, returns top-4 chunks
+     v
+build_context(chunks)            ← rag.py
+     |  formats chunks into labeled CONTEXT 1..4 blocks
+     v
+Groq API call                    ← rag.py
+     |  system prompt + context + question → LLM answer
+     v
+query() returns (answer, sources)
+     |
+     v
+handle_query() formats for UI    ← app.py
+     |
+     v
+Gradio renders answer + sources panels
+```
+
+**Conditional logic:**
+- `handle_query()` checks `if not question.strip()` before calling `query()`. If true, returns `"Please enter a question."` immediately without an API call.
+- `chunk_text()` checks `if current_len + para_len > chunk_size and current_parts` before flushing a chunk. If a paragraph alone exceeds `chunk_size`, it is saved as its own chunk without triggering the minimum size check.
+- `chunk_text()` checks `if len(chunk_str) >= min_chunk_size` before saving. If the accumulated chunk is too short, accumulation continues rather than saving a stub.
+- `build_vector_store()` wraps `client.delete_collection()` in a `try/except` so it silently skips deletion if the collection doesn't exist yet (first run).
+
+---
+
+## State Management
+
+| What | Where stored | When created | How passed |
+|---|---|---|---|
+| Raw document text + source filename | `list[Document]` in memory | `load_documents()` call | Passed directly to `chunk_documents()` |
+| Chunks with source metadata | `list[Chunk]` in memory | `chunk_documents()` call | Passed to `build_vector_store()` |
+| Chunk embeddings + metadata | ChromaDB on disk (`chroma_db/`) | `build_vector_store()` — run once | Persisted; loaded at query time via `get_collection()` |
+| Embedding model weights | In-memory via `SentenceTransformer` | First call to `retrieve()` | Module-level singleton in `embed.py` |
+| Retrieved chunks for a query | `list[dict]` in memory | `retrieve()` call | Passed to `build_context()` and `query()` |
+| Source filenames | `list[str]` in memory | Inside `query()`, from retrieval results | Returned as second element of `query()` tuple |
+| Groq client | Instantiated per call | Inside `query()` | Not cached — created fresh each call |
+
+**Key design decision:** ChromaDB is the only persistent state. Everything else is re-computed at query time. This means the vector store must be rebuilt (by running `embed.py`) any time the documents or chunking strategy changes.
+
+---
+
+## Error Handling
+
+| Scenario | Where handled | Mechanism |
+|---|---|---|
+| Empty user input | `handle_query()` in `app.py` | `if not question.strip()` guard returns a message without calling the API |
+| ChromaDB collection doesn't exist on first run | `build_vector_store()` in `embed.py` | `try/except` around `delete_collection()` silently skips if collection is absent |
+| Query returns no results | Not possible with ChromaDB — always returns `k` results | N/A |
+| LLM has no relevant context | System prompt fallback | Model is instructed to say "I don't have enough information in my documents to answer that." |
+| Missing `GROQ_API_KEY` | Runtime | `os.environ["GROQ_API_KEY"]` raises `KeyError` with a clear message; `.env` setup is documented in README |
+
+**Concrete example from testing:**
+During retrieval testing, the query *"What is CS 3650 at Northeastern and why is it considered hard?"* returned off-target chunks (generic intro paragraphs) rather than the specific CS 3650 curriculum chunk. This was a silent failure — no exception, just wrong results. The fix required inspecting distance scores and chunk content manually, then rewriting the query to include the specific term "malloc lab" which appears only in the target document. This confirmed that semantic search alone does not handle specific identifiers like course numbers reliably.
+
+---
+
 ## AI Usage
 
 **Instance 1**
